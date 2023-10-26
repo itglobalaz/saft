@@ -1,0 +1,214 @@
+{% extends 'wrapper/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load config_tag %}
+{% block content %}
+    {% get_config as config %}
+    <!-- Full Screen Search Start -->
+    <div class="modal fade" id="searchModal" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content" style="background: rgba(9, 30, 62, .7);">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center justify-content-center">
+                    <div class="input-group" style="max-width: 600px;">
+                        <input type="text" class="form-control bg-transparent border-primary p-3" placeholder="Type search keyword">
+                        <button class="btn btn-primary px-4"><i class="bi bi-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Full Screen Search End -->
+       <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for slider in sliders %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img class="w-100" src="{{slider.image.url}}" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h5 class="text-white text-uppercase mb-3 animated slideInDown">{{ slider.title }} </h5>
+                            <h1 class="display-1 text-white mb-md-4 animated zoomIn">{{ slider.subtitle}}</h1>
+                            {% if slider.description %}
+                            <a href="{{slider.get_slider_url}}" class="btn btn-outline-light py-md-3 px-md-5 animated slideInRight">{% trans 'Ətraflı' %}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+               {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#header-carousel"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <!-- Navbar & Carousel End -->
+
+{% include 'etc/partners.html' %}
+    <!-- About Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-7">
+                    <div class="section-title position-relative pb-3 mb-5">
+                        <h5 class="fw-bold text-primary text-uppercase">{% trans 'Haqqımızda' %}</h5>
+                        <h1 class="mb-0">{{ about.title }}</h1>
+                    </div>
+                    <p class="mb-4">{{ about.description|safe }}</p>
+                    <div class="row g-0 mb-3">
+                          {% for label in about.labels.all %}
+                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.{{ forloop.counter0 }}s">
+                            <h5 class="mb-3"><i class="fa fa-check text-primary me-3"></i>{{ label.title }}</h5>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="d-flex align-items-center mb-4 wow fadeIn" data-wow-delay="0.6s">
+                        <div class="bg-primary d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
+                            <i class="fa fa-phone-alt text-white"></i>
+                        </div>
+                        <div class="ps-4">
+                            <h5 class="mb-2">{% trans 'İstənilən sual üçün zəng edin' %}</h5>
+                            <h4 class="text-primary mb-0">{{ config.phone }}</h4>
+                        </div>
+                    </div>
+                    <a href="{% url 'partners' %}" class="btn btn-primary py-3 px-5 mt-3 wow zoomIn" data-wow-delay="0.9s">{% trans 'Əməkdaşlarımız' %}</a>
+                </div>
+                <div class="col-lg-5" style="min-height: 500px;">
+                    <div class="position-relative h-100">
+                        <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.9s" src="{{ about.photo.url }}" style="object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+
+    <!-- Features Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
+                <h5 class="fw-bold text-primary">{% trans 'NİYƏ BİZ?' %}</h5>
+                <p class="mb-1">{{ why.title }}</p>
+            </div>
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <div class="row g-5">
+                        <div class="col-12 wow zoomIn" data-wow-delay="0.2s">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3 " style="width: 60px; height: 60px;">
+                                <i class="fa {{ why_us.0.icon}} text-white"></i>
+                            </div>
+                            <h4>{{ why_us.0.title}}</h4>
+                        </div>
+                        <div class="col-12 wow zoomIn" data-wow-delay="0.6s">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <i class="fa {{ why_us.1.icon}} text-white"></i>
+                            </div>
+                            <h4 class="mt-2">{{ why_us.1.title}}</h4>
+                            <p class="mb-0"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4  wow zoomIn" data-wow-delay="0.9s" style="min-height: 350px;">
+                    <div class="position-relative h-100">
+                        <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.1s" src="{{ why.image.url }}" style="object-fit: cover;">
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="row g-5">
+                        <div class="col-12 wow zoomIn" data-wow-delay="0.4s">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <i class="fa {{ why_us.2.icon}} text-white"></i>
+                            </div>
+                            <h4>{{ why_us.2.title}}</h4>
+                        </div>
+                        <div class="col-12 wow zoomIn" data-wow-delay="0.8s">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <i class="fa {{ why_us.3.icon}} text-white"></i>
+                            </div>
+                            <h4>{{ why_us.3.title}}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Features Start -->
+
+    <!-- Quote Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-7">
+                    <div class="section-title position-relative pb-3 mb-5">
+                        <h5 class="fw-bold text-primary text-uppercase">{% trans 'Bizə yazın' %}</h5>
+                        <h1 class="mb-0">{% trans 'Hər hansı bir sualınız varsa, bizimlə əlaqə saxlayın' %}</h1>
+                    </div>
+                    <div class="row gx-3">
+                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.2s">
+                            <h5 class="mb-4"><i class="fa fa-reply text-primary me-3"></i>{% trans 'Geri dönüş 24 saat ərzində' %}</h5>
+                        </div>
+                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.4s">
+                            <h5 class="mb-4"><i class="fa fa-phone-alt text-primary me-3"></i>{% trans 'Telefonla dəstək' %}</h5>
+                        </div>
+                    </div>
+{#                    <p class="mb-4">Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.</p>#}
+                    <div class="d-flex align-items-center mt-2 wow zoomIn" data-wow-delay="0.6s">
+                        <div class="bg-primary d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
+                            <i class="fa fa-phone-alt text-white"></i>
+                        </div>
+                        <div class="ps-4">
+                            <h5 class="mb-2">{% trans 'Zəng edin' %}</h5>
+                            <h4 class="text-primary mb-0">{{ config.phone }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="bg-primary rounded h-100 d-flex align-items-center p-5 wow zoomIn" data-wow-delay="0.9s">
+                        <form action="{% url 'send_message' %}?redirect_url={% url 'home' %}" method="POST">
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags == 'success' %} alert-info {% else %} alert-danger {% endif %}alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <span aria-hidden="true">&times;</span>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                            {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-xl-12">
+                                    <input required name="name" type="text" class="form-control bg-light border-0" placeholder="{% trans 'Adınız' %}" style="height: 55px;">
+                                </div>
+                                <div class="col-12">
+                                    <input required name="email" type="email" class="form-control bg-light border-0" placeholder="{% trans 'Poçt adresiniz' %}" style="height: 55px;">
+                                </div>
+                                <div class="col-xl-12">
+                                    <input required name="subject" type="text" class="form-control bg-light border-0" placeholder="{% trans 'Mövzu' %}" style="height: 55px;">
+                                </div>
+                                <div class="col-12">
+                                    <textarea name="description" class="form-control bg-light border-0" rows="3" placeholder="{% trans 'Məlumat' %}"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-dark w-100 py-3" type="submit">{% trans 'Göndər' %}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Quote End -->
+
+{% endblock content %}

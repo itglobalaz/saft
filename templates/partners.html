@@ -1,0 +1,57 @@
+{% extends 'wrapper/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load config_tag %}
+   {% block title %}<title>Alfa Group | {% trans 'Əməkdaşlarımız' %}</title>{% endblock title %}
+{% block content %}
+{% get_config as config %}
+    <!-- Navbar Start -->
+    <div class="container-fluid position-relative p-0">
+        <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
+            <div class="row py-5">
+                <div class="col-12 pt-lg-5 mt-lg-5 text-center">
+                    <h1 class="display-4 text-white animated zoomIn">{% trans 'Əməkdaşlarımız' %}</h1>
+                    <a href="{% url 'home' %}" class="h5 text-white">{% trans 'Ana səhifə' %}</a>
+                    <i class="far fa-circle text-white px-2"></i>
+                    <a href="{% url 'partners' %}" class="h5 text-white">{% trans 'Əməkdaşlarımız' %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- partners Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-1">
+            <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
+                <h5 class="fw-bold text-primary text-uppercase">{% trans 'Əməkdaşlarımız' %}</h5>
+{#                <h1 class="mb-0">Professional Stuffs Ready to Help Your Business</h1>#}
+            </div>
+            <div class="row g-5">
+                {% for partner in partners %}
+                <div class="col-lg-3 wow slideInUp" data-wow-delay="0.{{ forloop.counter0 }}s">
+                    <div  class="team-item bg-light rounded overflow-hidden">
+                        <div class="team-img position-relative overflow-hidden">
+                            <img class="img-fluid w-100" src="{{ partner.image.url}}" alt="">
+                            <div class="team-social">
+                                {% if partner.url %}
+                                <a class="btn btn-lg btn-primary btn-lg-square rounded" target="_blank" href="{{ partner.url }}"> <i class="fas fa-globe text-white"></i></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="text-center py-4">
+                            <a href="{{ partner.get_partner_url }}">
+                                <h4 class="text-primary">{{ partner.name}}</h4>
+                            </a>
+                            <a href="{{ partner.get_partner_url }}"><p class=" m-0">{% trans 'Ətraflı >' %}</p></a>
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- partners End -->
+{% endblock content %}

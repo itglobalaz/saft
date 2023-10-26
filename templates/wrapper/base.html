@@ -1,0 +1,202 @@
+{% load static %}
+{% load i18n %}
+{% load flags %}
+{% load config_tag %}
+{% get_current_language as LANGUAGE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE }}">
+<head>
+{% get_seo as seo %}
+    <meta charset="utf-8">
+    {% block title %}<title>{{ seo.title }}</title>{% endblock title %}
+    {% block keywords %}<meta content="{{ seo.keywords }}" name="keywords">{% endblock keywords %}
+    {% block description %}<meta content="{{ seo.description|truncatechars:255 }}" name="description">{% endblock description %}
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="google-site-verification" content="X7V3UroDqv5Dkas6AHVpyXdCI2vaP2pIaGL-kBVTfEE" />
+    <meta name="yandex-verification" content="a3a6f2f095446b55" />
+    <link href="{% static 'favicon.png' %}" rel="icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}?ver=1.3.2" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Created by IT GLOBAL LEGENDS -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner"></div>
+    </div>
+    <!-- Spinner End -->
+{% get_config as config %}
+{% get_social as socials %}
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-dark px-5 d-none d-lg-block">
+        <div class="row gx-0">
+            <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
+                <div class="d-inline-flex align-items-center" style="height: 45px;">
+                    <a target="_blank" href="{{ config.map }}"><small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>{{ config.address}}</small></a>
+                    <a href="tel:{{ config.phone }}"><small class="me-3 text-light"><i class="fa fa-phone-alt me-2"></i>{{ config.phone }}</small></a>
+                    <a href="mailto:{{ config.email }}"><small class="text-light"><i class="fa fa-envelope-open me-2"></i>{{ config.email }}</small></a>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center" style="height: 45px;">
+                    {% for social in socials %}
+                       {% if social.name == 'whatsapp' %}
+                            <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="https://api.whatsapp.com/send?phone={{ social.url }}&amp;text={% if current_lang == 'ru' %}Здравствуйте. У меня вопрос!{% else %}Salam, mənim sualım var.{% endif %}" target="_blank"><i class="fab fa-{{ social.name }} fw-normal"></i></a>
+                            {% else %}
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="{{ social.url }}" target="_blank"><i class="fab fa-{{ social.name }} fw-normal"></i></a>
+                   {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+    <!-- Navbar & Carousel Start -->
+    <div class="container-fluid position-relative p-0">
+        <nav  class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0">
+            <a style="width: 55%;" href="{% url 'home' %}" class="navbar-brand p-0">
+                <img class="alfa_logo" src="{{ config.logo.url }}" alt="Alfa group">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="{% url 'home' %}" class="nav-item nav-link  {% if request.resolver_match.url_name == 'home' %}active{% endif %}">{% trans 'Ana səhifə' %}</a>
+                    <a href="{% url 'about' %}" class="nav-item nav-link  {% if request.resolver_match.url_name == 'about' %}active{% endif %}">{% trans 'Haqqımızda' %}</a>
+                    <a href="{% url 'contact' %}" class="nav-item nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">{% trans 'Əlaqə' %}</a>
+                <div class="d-flex align-items-center position-relative">
+                    <a href="" class="nav-item nav-link position-absolute" > {% languages %} </a>
+                </div>
+                </div>
+{#                <butaton type="button" class="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></butaton>#}
+                <a href="{% url 'partners' %}" class="btn btn-primary py-2 px-4 ms-3">{% trans 'Əməkdaşlarımız' %}</a>
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar & Carousel End -->
+<div class="social-bar">
+    {% for social in socials %}
+     {% if social.name == 'whatsapp' %}
+	<a target="_blank" href="https://api.whatsapp.com/send?phone={{ social.url }}&amp;text={% if current_lang == 'ru' %}Здравствуйте. У меня вопрос!{% else %}Salam, mənim sualım var.{% endif %}">
+		<div class="social-bar__item social-bar__{{ social.name }}">
+			<i class="fab fa-{{ social.name }} fw-normal" aria-hidden="true"></i>
+		</div>
+	</a>
+        {% else %}
+	<a target="_blank" href="{{ social.url }}">
+		<div class="social-bar__item social-bar__{{ social.name }}">
+			<i class="fab fa-{{ social.name }} fw-normal" aria-hidden="true"></i>
+		</div>
+	</a>
+        {% endif %}
+    {% endfor %}
+</div>
+
+    {% block content %}
+
+    {% endblock content %}
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light mt-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row gx-5">
+                <div class="col-lg-4 col-md-6 footer-about ">
+                    <div class="d-flex flex-column align-items-center justify-content-center text-center h-100 bg-primary p-4 ">
+                        <a href="{% url 'home' %}" class="navbar-brand">
+                            <h1 class="m-0 text-white "><i class="fa fa-user-tie me-2"></i>ALPHA GROUP</h1>
+                        </a>
+{#                        <p class="mt-3 mb-4">{% trans ' xəbər tutmaq üçün abunə olun' %}</p>#}
+                        <form action="">
+                            <div style="margin-top: 30px;" class="input-group">
+                                <input required type="email" class="form-control border-white p-3" placeholder="{% trans 'Poçt' %}">
+                                <button class="btn btn-dark">{% trans 'Abunə ol' %}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-6">
+                    <div class="row gx-5">
+                     <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">{% trans 'Xəritə' %}</h3>
+                            </div>
+                            <div class="link-animated d-flex flex-column justify-content-start">
+                                <a class="text-light mb-2" href="{% url 'home' %}"><i class="bi bi-arrow-right text-primary me-2"></i>{% trans 'Ana səhifə' %}</a>
+                                <a class="text-light mb-2" href="{% url 'about' %}"><i class="bi bi-arrow-right text-primary me-2"></i>{% trans 'Haqqımızda' %}</a>
+                                <a class="text-light mb-2" href="{% url 'partners' %}"><i class="bi bi-arrow-right text-primary me-2"></i>{% trans 'Əməkdaşlarımız' %}</a>
+                                <a class="text-light" href="{% url 'contact' %}"><i class="bi bi-arrow-right text-primary me-2"></i>{% trans 'Əlaqə' %}</a>
+                            </div>
+                        </div>
+
+                          <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">{% trans 'Sosial şəbəkə' %}</h3>
+                            </div>
+                            <div class="link-animated d-flex flex-column justify-content-start">
+                                {% for social in socials %}
+                                    {% if social.name == 'whatsapp' %}
+
+                                    <a target="_blank" style="text-transform:capitalize;" class="text-light mb-2" href="https://api.whatsapp.com/send?phone={{ social.url }}&amp;text={% if current_lang == 'ru' %}Здравствуйте. У меня вопрос!{% else %}Salam, mənim sualım var.{% endif %}"><i class="bi bi-arrow-right text-primary me-2"></i>{{ social.name }}</a>
+                                    {% else %}
+                                    <a target="_blank" style="text-transform:capitalize;" class="text-light mb-2" href="{{ social.url }}"><i class="bi bi-arrow-right text-primary me-2"></i>{{ social.name }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-12 pt-5 mb-5">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">{% trans 'Əlaqə' %}</h3>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <i class="bi bi-geo-alt text-primary me-2"></i>
+                                <a href="{{ config.map }}" target="_blank"><p style="color: white!important;" class="mb-0">{{ config.address }}</p></a>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <i class="bi bi-envelope-open text-primary me-2"></i>
+                                <a href="mailto:{{ config.map }}"><p style="color: white!important;" class="mb-0">{{ config.email }}</p></a>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <i class="bi bi-telephone text-primary me-2"></i>
+                                <a href="tel: {{ config.phone }}"><p style="color: white!important;" class="mb-0">{{ config.phone }}</p></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid text-white" style="background: #061429;">
+        <div class="container text-center">
+            <div class="row justify-content-end">
+                <div class="col-lg-8 col-md-6">
+                    <div class="d-flex align-items-center justify-content-center" style="height: 75px;">
+                         All Rights Reserved. &copy; <a class="text-white border-bottom" href="/">ALFA GROUP</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/wow/wow.min.js' %}"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

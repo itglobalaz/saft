@@ -1,0 +1,62 @@
+{% extends 'wrapper/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load config_tag %}
+   {% block title %}<title>Alfa Group | {% trans 'Haqqımızda' %}</title>{% endblock title %}
+    {% block description %}<meta content="{{ about.description|truncatechars:255 }}" name="description">{% endblock description %}
+{% block content %}
+{% get_config as config %}
+    <!-- Navbar Start -->
+    <div class="container-fluid position-relative p-0">
+        <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
+            <div class="row py-5">
+                <div class="col-12 pt-lg-5 mt-lg-5 text-center">
+                    <h1 class="display-4 text-white animated zoomIn">{% trans 'Haqqımızda' %}</h1>
+                    <a href="{% url 'home' %}" class="h5 text-white">{% trans 'Ana səhifə' %}</a>
+                    <i class="far fa-circle text-white px-2"></i>
+                    <a href="{% url 'about' %}" class="h5 text-white">{% trans 'Haqqımızda' %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+    <!-- About Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-7">
+                    <div class="section-title position-relative pb-3 mb-5">
+                        <h5 class="fw-bold text-primary text-uppercase">{% trans 'Haqqımızda' %}</h5>
+                        <h1 class="mb-0">{{ about.title }}</h1>
+                    </div>
+                    <p class="mb-4">{{ about.description|safe }}</p>
+                    <div class="row g-0 mb-3">
+                        {% for label in about.labels.all %}
+                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.{{ forloop.counter0 }}s">
+                            <h5 class="mb-3"><i class="fa fa-check text-primary me-3"></i>{{ label.title }}</h5>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex align-items-center mb-4 wow fadeIn" data-wow-delay="0.6s">
+                        <div class="bg-primary d-flex align-items-center justify-content-center rounded" style="width: 60px; height: 60px;">
+                            <i class="fa fa-phone-alt text-white"></i>
+                        </div>
+                        <div class="ps-4">
+                            <h5 class="mb-2">{% trans 'İstənilən sual üçün zəng edin' %}</h5>
+                            <h4 class="text-primary mb-0">{{ config.phone }}</h4>
+                        </div>
+                    </div>
+                    <a href="{% url 'partners' %}" class="btn btn-primary py-3 px-5 mt-3 wow zoomIn" data-wow-delay="0.9s">{% trans 'Əməkdaşlarımız' %}</a>
+                </div>
+                <div class="col-lg-5" style="min-height: 500px;">
+                    <div class="position-relative h-100">
+                        <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.9s" src="{{ about.photo.url }}" style="object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+    {% include 'etc/partners.html' %}
+{% endblock content %}

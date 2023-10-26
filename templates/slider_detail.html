@@ -1,0 +1,40 @@
+{% extends 'wrapper/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load config_tag %}
+   {% block title %}<title>Alfa Group | {{ object.subtitle }}</title>{% endblock title %}
+    {% block description %}<meta content="{{ object.description|truncatechars:255 }}" name="description">{% endblock description %}
+{% block content %}
+{% get_config as config %}
+    <!-- Navbar Start -->
+    <div class="container-fluid position-relative p-0">
+        <div class="container-fluid bg-primary py-5 bg-header" style="
+        background: linear-gradient(rgba(9, 30, 62, .7), rgba(9, 30, 62, .7)),
+        url({{object.image.url}}) center center no-repeat;
+        background-size: 100%">
+            <div class="row py-5">
+                <div class="col-12 pt-lg-5 mt-lg-5 text-center">
+                    <a href="{% url 'home' %}" class="h5 text-white">{% trans 'Ana səhifə' %}</a>
+                    <i class="far fa-circle text-white px-2"></i>
+                    <a href="{{object.get_slider_url}}" class="h5 text-white">{{ object.subtitle }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-12">
+                    <div class="section-title position-relative pb-3 mb-5">
+                        <h5 class="fw-bold text-primary text-uppercase">{{ object.title }}</h5>
+                        <h1 class="mb-0">{{ object.subtitle }}</h1>
+                    </div>
+                    <p class="mb-4">{{ object.description|safe }}</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}
