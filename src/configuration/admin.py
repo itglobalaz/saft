@@ -3,8 +3,8 @@ from django.contrib import admin
 from src.configuration.models import Seo, Social, Config
 from modeltranslation.translator import TranslationOptions, translator
 
-admin.site.site_header = "ALFA GROUP панель управления"
-admin.site.site_title = "ALFA GROUP панель управления"
+admin.site.site_header = "SAFT панель управления"
+admin.site.site_title = "SAFT панель управления"
 admin.site.index_title = 'Добро пожаловать!'
 
 
